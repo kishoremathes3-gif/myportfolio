@@ -63,4 +63,129 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     btn.addEventListener('mouseleave', () => { btn.style.transform = 'translate(0,0)'; });
   });
+
+  // --- Gallery Modal Logic ---
+  const galleryData = {
+    branding: {
+      title: "Visual Identity Systems",
+      subtitle: "A collection of logos and brand guidelines for various startups.",
+      items: [
+        { img: "images/projects/branding/Logo Works/EV HUB Logo - Mockup.png", label: "EV HUB Tech Identity" },
+        { img: "images/projects/branding/Logo Works/Adler Logo - Mockup.png", label: "Adler Luxury Branding" },
+        { img: "images/projects/branding/Logo Works/Grand Interiors Logo - Mockup.png", label: "Grand Interiors Identity" },
+        { img: "images/projects/branding/Logo Works/SP Studio Logo - Mockup.png", label: "SP Studio Logo" },
+        { img: "images/projects/branding/Logo Works/RedMind Traders - Mockup.png", label: "RedMind Traders" },
+        { img: "images/projects/branding/Logo Works/V jewelry Logo - Mockup.png", label: "V Jewelry" },
+        { img: "images/projects/branding/Logo Works/Kalam Vision Logo - Mockup.png", label: "Kalam Vision" },
+        { img: "images/projects/branding/Logo Works/ES LOGO - Mockup.png", label: "ES Identity" }
+      ]
+    },
+    packaging: {
+      title: "Product Packaging Design",
+      subtitle: "Shelf-ready packaging solutions for retail and F&B brands.",
+      items: [
+        { img: "images/projects/branding/Package designs/Mockup - Bhimsain Bajinath Masala package design.jpg", label: "Bhimsain Bajinath Masala" },
+        { img: "images/projects/branding/Package designs/Mockup - Bhimsain Bajinath Pickle package design.jpg", label: "Bhimsain Bajinath Pickle" },
+        { img: "images/projects/branding/Package designs/Mockup - Eitto Package Design.jpg", label: "Eitto Package" },
+        { img: "images/projects/branding/Package designs/Slim Belt-Box Packaging Design.jpg", label: "Slim Belt Box" }
+      ]
+    },
+    staticWeb: {
+      title: "Static Web Collection",
+      subtitle: "A showcase of 5–6 high-performance startup & portfolio websites.",
+      items: [
+        // { img: "images/projects/web/project1.jpg", label: "Startup Landing Page" },
+      ]
+    },
+    ecommerce: {
+      title: "WooCommerce Ecosystems",
+      subtitle: "Full-stack e-commerce solutions with custom checkout flows.",
+      items: [
+        // { img: "images/projects/ecommerce/store1.jpg", label: "Retail Fashion Store" },
+      ]
+    }
+  };
+
+  const gModal = document.getElementById('galleryModal');
+  const gGrid = document.getElementById('galleryGrid');
+  const gTitle = document.getElementById('galleryTitle');
+  const gSubtitle = document.getElementById('gallerySubtitle');
+  const gClose = document.getElementById('galleryClose');
+  const fsViewer = document.getElementById('fsViewer');
+  const fsImage = document.getElementById('fsImage');
+  const fsClose = document.getElementById('fsClose');
+
+  document.querySelectorAll('[data-gallery]').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const type = trigger.getAttribute('data-gallery');
+      const data = galleryData[type];
+      if (!data) return;
+
+      gTitle.innerText = data.title;
+      gSubtitle.innerText = data.subtitle;
+      gGrid.innerHTML = data.items.map(item => `
+        <div class="gallery-item reveal" data-full="${item.img}">
+          <img src="${item.img}" alt="${item.label}">
+          <div class="gallery-item-info"><span>${item.label}</span></div>
+        </div>
+      `).join('');
+
+      gModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      lenis.stop(); // Stop background smooth scroll
+
+      // Attach click listeners to new gallery items
+      gGrid.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('click', () => {
+          fsImage.src = item.getAttribute('data-full');
+          fsViewer.classList.add('active');
+        });
+      });
+    });
+  });
+
+  const closeGModal = () => { 
+    gModal.classList.remove('active'); 
+    document.body.style.overflow = ''; 
+    lenis.start(); // Restart background smooth scroll
+  };
+  gClose.addEventListener('click', closeGModal);
+  gModal.addEventListener('click', (e) => { if (e.target === gModal) closeGModal(); });
+
+  const closeFS = () => fsViewer.classList.remove('active');
+  fsClose.addEventListener('click', closeFS);
+  fsViewer.addEventListener('click', (e) => { if (e.target === fsViewer) closeFS(); });
+
+  // --- Case Study Modal Logic ---
+  const csModal = document.getElementById('caseStudyModal');
+  const csClose = document.getElementById('caseStudyClose');
+  const csBackdrop = document.getElementById('caseStudyBackdrop');
+  const openCsBtn = document.getElementById('openIrisCaseStudy');
+
+  if (openCsBtn && csModal) {
+    const openCS = () => {
+      csModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      if (window.lenis) window.lenis.stop();
+      else if (typeof lenis !== 'undefined') lenis.stop();
+    };
+
+    const closeCS = () => {
+      csModal.classList.remove('active');
+      document.body.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+      else if (typeof lenis !== 'undefined') lenis.start();
+    };
+
+    openCsBtn.addEventListener('click', openCS);
+    if (csClose) csClose.addEventListener('click', closeCS);
+    if (csBackdrop) csBackdrop.addEventListener('click', closeCS);
+    
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && csModal.classList.contains('active')) {
+        closeCS();
+      }
+    });
+  }
 });
