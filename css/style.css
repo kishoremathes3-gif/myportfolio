@@ -318,10 +318,10 @@ section {
 }
 
 .hero-title {
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  line-height: 1.05;
-  margin-bottom: 32px;
-  letter-spacing: -0.04em;
+  font-size: clamp(2.2rem, 4.5vw, 3.75rem);
+  line-height: 1.15;
+  margin-bottom: 28px;
+  letter-spacing: -0.03em;
 }
 .hero-title span {
   display: block;
@@ -579,6 +579,72 @@ section {
 }
 .hero-social svg { width: 18px; height: 18px; }
 
+/* ==========================================================================
+   STATS SECTION (Horizontal below Hero)
+   ========================================================================== */
+.stats-section {
+  padding: 48px 0;
+  background: linear-gradient(180deg, var(--bg) 0%, rgba(11, 16, 32, 0.4) 100%);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 5;
+}
+.stats-section .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.stats-section .stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 20px;
+  text-align: center;
+  transition: var(--transition);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+.stats-section .stat-card:hover {
+  border-color: rgba(124, 58, 237, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.1);
+}
+
+/* ==========================================================================
+   PROJECT FILTERS
+   ========================================================================== */
+.project-filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.filter-btn {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 100px;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.filter-btn:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+.filter-btn.active {
+  color: #fff;
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+}
+
 /* ===========================
    PROJECTS — BENTO GRID
    =========================== */
@@ -594,6 +660,9 @@ section {
   overflow: hidden;
   transition: var(--transition);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .project-card:hover {
   border-color: var(--border-hover);
@@ -704,6 +773,9 @@ section {
   padding: 24px;
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 .project-meta {
   display: flex;
@@ -751,42 +823,52 @@ section {
   border-radius: 100px;
   color: var(--text-secondary);
 }
-.project-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--primary-light);
-  transition: var(--transition);
-}
-.project-link:hover { gap: 10px; }
-.project-link svg { width: 14px; height: 14px; }
 
 .project-actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 20px;
-  margin-top: 16px;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
 }
 
-.btn-case-study {
+/* Unified Project Action Buttons */
+.project-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.85rem;
+  font-size: 0.825rem;
   font-weight: 600;
+  border-radius: 100px;
+  padding: 8px 16px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+/* Primary Capsule Button (Live Web / Main CTAs) */
+.project-btn.primary {
+  color: #000;
+  background: #fff;
+  border: 1px solid #fff;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+.project-btn.primary:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(124, 58, 237, 0.3);
+}
+
+/* Secondary/Outline Button (Case Studies / Alt CTAs) */
+.project-btn.outline {
   color: var(--primary-light);
   background: rgba(124, 58, 237, 0.08);
   border: 1px solid rgba(124, 58, 237, 0.3);
-  border-radius: 100px;
-  padding: 8px 18px;
-  transition: var(--transition);
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
-
-.btn-case-study:hover {
+.project-btn.outline:hover {
   background: var(--primary);
   border-color: var(--primary);
   color: #fff;
@@ -794,14 +876,80 @@ section {
   box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
 }
 
+.project-btn svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s;
+}
+.project-btn:hover svg {
+  transform: translateY(-1px) translateX(2px);
+}
+
+/* Retrofit btn-case-study class to match outline style */
+.btn-case-study {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--primary-light);
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 100px;
+  padding: 8px 16px;
+  transition: var(--transition);
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.btn-case-study:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
 .btn-case-study svg {
   width: 14px;
   height: 14px;
   transition: transform 0.3s;
 }
-
 .btn-case-study:hover svg {
   transform: translateY(-1px) translateX(2px);
+}
+
+/* ==========================================================================
+   PROJECT ROLE LIST
+   ========================================================================== */
+.project-role-block {
+  margin: 16px 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.project-role-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.project-role-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+}
+.project-role-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.project-role-item svg {
+  width: 14px;
+  height: 14px;
+  color: var(--primary-light);
+  flex-shrink: 0;
 }
 
 /* ===========================
@@ -850,6 +998,125 @@ section {
 .stat-label {
   font-size: 0.85rem;
   color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   RECRUITER QUICK SUMMARY
+   ========================================================================== */
+.recruiter-summary-card {
+  background: linear-gradient(135deg, rgba(11, 16, 32, 0.8) 0%, rgba(5, 8, 22, 0.9) 100%);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+.recruiter-summary-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-primary);
+}
+.recruiter-summary-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+.recruiter-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.recruiter-summary-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.recruiter-summary-row:last-child {
+  border-bottom: none;
+}
+.recruiter-summary-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 0;
+  width: 35%;
+  vertical-align: middle;
+}
+.recruiter-summary-value {
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 500;
+  padding: 12px 0 12px 16px;
+  vertical-align: middle;
+}
+.recruiter-summary-value span.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--secondary);
+  border-radius: 100px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   TOOLS SECTION & CHIPS
+   ========================================================================== */
+.tools-section {
+  margin-top: 48px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+}
+.tools-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 24px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.tools-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.tool-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+.tool-chip:hover {
+  background: rgba(124, 58, 237, 0.05);
+  border-color: rgba(124, 58, 237, 0.3);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+.tool-chip svg {
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+.tool-chip:hover svg {
+  color: var(--primary-light);
 }
 
 /* ===========================
@@ -1474,7 +1741,7 @@ footer {
     padding-top: 140px;
   }
   .hero-title {
-    font-size: 2.8rem;
+    font-size: 2.4rem;
   }
   .hero-description {
     font-size: 1rem;
@@ -1503,7 +1770,7 @@ footer {
 
 @media (max-width: 480px) {
   .hero-title {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
   .hero-actions {
     flex-direction: column;
@@ -1862,6 +2129,13 @@ footer {
   border: 1px solid var(--border);
   border-radius: 100px;
   color: var(--text-secondary);
+}
+
+.cs-bottom-action {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
 }
 
 /* Responsive adjustments */

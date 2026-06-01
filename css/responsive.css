@@ -7,6 +7,9 @@
   .projects-grid {
     grid-template-columns: 1fr;
   }
+  .stats-section .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
   .project-card.featured .project-image {
     height: 280px;
   }
@@ -105,8 +108,16 @@
   }
 
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stats-section .stats-grid { grid-template-columns: 1fr; gap: 16px; }
   .stat-card { padding: 16px; }
   .stat-number { font-size: 1.6rem; }
+  
+  .recruiter-summary-card { padding: 20px; }
+  .recruiter-summary-label { width: 40%; font-size: 0.7rem; }
+  .recruiter-summary-value { font-size: 0.85rem; padding-left: 8px; }
+  
+  .tools-grid { gap: 8px; }
+  .tool-chip { padding: 8px 14px; font-size: 0.8rem; }
 
   .section-header { margin-bottom: 40px; }
   .timeline-item { padding-left: 44px; }

@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Stats Counter Animation ---
   document.querySelectorAll('.stat-number').forEach(el => {
     const target = parseInt(el.dataset.count) || 0;
-    const suffix = (target === 12 || target === 1 || target === 4) ? '+' : '';
+    const suffix = el.dataset.suffix !== undefined ? el.dataset.suffix : '';
     ScrollTrigger.create({
       trigger: el, start: 'top 85%',
       onEnter: () => {

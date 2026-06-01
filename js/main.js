@@ -181,11 +181,68 @@ document.addEventListener('DOMContentLoaded', () => {
     if (csClose) csClose.addEventListener('click', closeCS);
     if (csBackdrop) csBackdrop.addEventListener('click', closeCS);
     
+    const csCloseBottom = document.getElementById('closeCaseStudyBottom');
+    if (csCloseBottom) csCloseBottom.addEventListener('click', closeCS);
+    
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && csModal.classList.contains('active')) {
         closeCS();
       }
+    });
+  }
+
+  // --- Project Filtering Logic ---
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  if (filterBtns.length > 0 && projectCards.length > 0) {
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from all buttons and add to this one
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filterValue = btn.getAttribute('data-filter');
+
+        projectCards.forEach(card => {
+          const cardCategories = card.getAttribute('data-categories') || '';
+          const categoryList = cardCategories.split(' ').map(c => c.trim().toLowerCase());
+
+          if (filterValue === 'all' || categoryList.includes(filterValue.toLowerCase())) {
+            card.style.display = '';
+            if (typeof gsap !== 'undefined') {
+              gsap.killTweensOf(card);
+              gsap.fromTo(card, 
+                { opacity: 0, scale: 0.95 },
+                { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' }
+              );
+            }
+          } else {
+            if (typeof gsap !== 'undefined') {
+              gsap.killTweensOf(card);
+              gsap.to(card, {
+                opacity: 0,
+                scale: 0.95,
+                duration: 0.3,
+                ease: 'power2.in',
+                onComplete: () => {
+                  card.style.display = 'none';
+                }
+              });
+            } else {
+              card.style.display = 'none';
+            }
+          }
+        });
+
+        // Refresh GSAP ScrollTrigger after filter layout shifts
+        if (typeof ScrollTrigger !== 'undefined') {
+          setTimeout(() => {
+            ScrollTrigger.refresh();
+          }, 400);
+        }
+      });
     });
   }
 });
